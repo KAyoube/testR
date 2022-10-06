@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>je suis post by ID</h1>
+    <% if(locals.myPost.error){ %> 
+        <p class="alert alert-danger"><%= locals.myPost.error %> go back to <a href="/feed">feed</a></p>
+        <% } %> 
+        <% if(locals.message.length[0] !== ""){ %>
+            <p style="color: green;"><%= locals.message %> </p>
+            <% } %> 
+        
+        <% console.log(locals); %> 
+        <% if(locals.myPost.success && locals.users.success){ %> 
+            <a href="/feed"> Retour au FEED</a>
+           <% locals.users.success.map((user)=>{ %>
+            <% if(locals.myPost.success.userId === user.id){ %>
+                <ul>
+                    <li><strong>Nom : </strong><%= user.firstname %>, <%= user.lastname %></li><br>
+                    <li><strong>Title: </strong><%= locals.myPost.success.title %> </li>
+                    <% if(locals.me.success.id === locals.myPost.success.userId){  %>
+                        <form action="/posts/update/<%= locals.myPost.success.id %> " method="post">
+                            <input type="text" name="title" placeholder="new title">
+                            <button type="submit">update</button><br>
+                        </form><br>
+                        <% } %> 
+                    <li><strong>Text : </strong><%= locals.myPost.success.text %> </li>
+                    <% if(locals.me.success.id === locals.myPost.success.userId){  %>
+                        <form action="/posts/update/<%= locals.myPost.success.id %> " method="post">
+                            <input type="text" name="text" placeholder="new text">
+                            <button type="submit">update</button>
+                        </form><br>
+                        <form action="/postdelete/<%= locals.myPost.success.id %> " method="post">
+                            <button type="submit">Supp post</button>
+                        </form>
+                        <% } %> 
+                </ul>
+                <% } %>  
+            <% }) %> 
+            <% } %> 
+    
+</body>
+</html>

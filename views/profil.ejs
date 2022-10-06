@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>je suis profil</h1>    
+    <% if(locals.message){ %>
+        <p style="color: green;"> <%= locals.message %> </p>
+        <% } %>  
+        <% if(locals.myProfil.error){ %>
+            <p style="color: red;"> <%= locals.myProfil.error %> please LOG <a href="/login">HERE</a> </p>
+            <% } %> 
+        
+        <% if(locals.myProfil.success){ %>
+            <% let user = locals.myProfil.success  %> 
+            <a href="/feed">FEED</a>
+            <ul>
+                <form action="/profil" method="post">
+                <li><strong>Email : </strong> <%= user.email %> </li>
+                <br><br>
+                <li><strong>Firstname : </strong> <%= user.firstname %> </li>
+                <input type="text" name="firstname" placeholder="new firstname">
+                <br><br>
+                <li><strong>Lastname : </strong> <%= user.lastname %> </li>
+                <input type="text" name="lastname" placeholder="new lastname">
+                <br><br>
+                <li><strong>Bio : </strong> <%= user.bio %> </li>
+                <input type="text" name="bio" placeholder="new bio">
+                <br><br>
+                <button type="submit">Update PRofil</button>
+            </form>
+            <br>
+            <form action="/profil/delete" method="post">
+                <button style="color: red;" type="submit">Supp profil</button>
+            </form>
+            </ul>
+            <% } %> 
+</body>
+
+</html>

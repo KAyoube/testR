@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      *,
+      ::after,
+      ::before {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      .cardUser {
+        border: 1px solid darkblue;
+      }
+
+      .card2 {
+        border: 1px solid aqua;
+        border-radius: 10px;
+        width: 450px;
+        height: 115px;
+        margin-bottom: 16px;
+        margin-left: 100px;
+      }
+
+      ul {
+        list-style-type: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>Je suis le Feed</h2><br><br>
+<% console.log("-----------------feed locals-----------",locals); %> 
+    
+   <% const users = locals.users.success %> 
+   <% const posts = locals.posts.success %> 
+   <% const me = locals.me.success %> 
+   
+   <% if(locals.me.error || locals.posts.error || locals.users.error){ %>
+    <p><%= locals.me.error %> </p>
+    <% } %> 
+
+   <% if(users && posts && me){ %> 
+    <a href="/profil">profil</a>
+    <form action="/newPost" method="post">
+      <input type="text" name="title" placeholder="Title" />
+      <br /><br />
+      <input type="text" name="text" placeholder="Texte" />
+      <br /><br />
+      <button type="submit">POST</button>
+    </form>
+    <br>
+
+
+    <% posts.reverse().map((post)=>{ %>
+      <% users.map((user)=>{ %>
+        <% if(user.id === post.userId){ %>  
+      <ul>
+        <li><strong>ID : </strong><%= post.id %> </li>
+        <li><strong>TITLE : </strong><%= post.title  %> </li>
+        <li><strong>TEXTE : </strong><%= post.text %></li>
+        <li><strong>LIKES : </strong><%= post.likesCount %></li>
+        <li><strong>USER : </strong><%= user.firstname %> <%= user.lastname %> </li>
+        <% if(me.id === post.userId){ %>
+          <br>
+          <form action="/delete<%=post.id %>" method="post">
+          <button type="submit">Supp post</button>
+          </form>
+        <% } %> 
+      </ul>
+      <br>
+    <% } %> 
+      <% }) %> 
+      <% }) %> 
+    <% } %> 
+
+  </body>
+</html>
